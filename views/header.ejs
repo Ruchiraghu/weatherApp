@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App 🌥️</title>
+</head>
+<style>
+
+.box{
+  color: white;
+  font-weight: bolder;
+  font-size: larger;
+}
+.form-control{
+    display: inline-flex;
+    /* text-align: center; */
+    /* justify-content: center; */
+    width: 30%;
+    height: 40px;
+    outline: none;
+    border: 1px solid transparent;
+    padding-left: 15px;
+    border-radius: 20px;
+    color: black;
+    /* font-size: clamp(16px, 3vw, 25px); */
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px !important;
+    padding: 23px;
+    margin-left: 33%;
+  
+  }
+
+    
+    .btn{
+      border-radius: 10px;
+      height: 34px;
+      width: 67px;
+      color: white;
+      background-color: #565e64;
+      border:#565e64
+  
+    }  
+  body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    /* font-weight: bolder; */
+  }
+
+  .day-bg {
+    background-image: url("day.jpg");
+    background-image: url('https://e0.pxfuel.com/wallpapers/1011/277/desktop-wallpaper-anime-scenery-anime-scenery-90s-anime.jpg');
+    background-color: rgb(16, 26, 48);
+  }
+  .night-bg {
+    background-image: url(https://cutewallpaper.org/25/anime-wallpaper-view-back/971221823.jpg);
+
+  }
+  /* body.day{ background-color: #ffffff;
+  color: #000000;}
+  body.night{
+    background-color: #000000;
+  color: #ffffff; 
+  } */
+
+  .container {
+    width: 55%;
+  }
+  @media screen  and (max-width : 800px ){
+        .day-bg{
+        /* background-image: url('https://wallpapers.com/images/hd/anime-park-scenery-1440-x-2960-n38b87g7hnd9vxmm.jpg'); */
+        color: black;
+        /* background-color: rgb(46, 77, 55); */
+       }
+      }
+
+
+</style>
+<body id="body">
+  <!-- <img id="dayNightImage" src="" alt="Day or Night Image"> -->
+
+  <div class="box"><nav class="navbar">Weather App  🌥️ 
+
+  </nav></div>
+            <form class="searchbox" action="/weather" method="post" role="search">
+              <input class="form-control me-2 " type="search" placeholder="Enter your city/town" aria-label="Search" name="city" required="">
+              <button onclick="barposition()" class="btn btn-secondary" action="submit" >Search</button>
+            </form>  </body>
+            <!-- footer -->
+            <footer>
+              <div id="clock" class="box"></div>
+          </footer>
+          
+
+            <!-- script -->
+        <script>
+          const currentHour = new Date().getHours();
+          const body = document.body;
+          const dayClassName = 'day-bg';
+          const nightClassName = 'night-bg';
+          if (currentHour >= 6 && currentHour < 18){
+            body.classList.add(dayClassName);
+            body.classList.remove(nightClassName);
+          } else {
+            body.classList.add(nightClassName);
+            body.classList.remove(dayClassName);
+          }
+        </script>
+        
+        <script src="script.js"></script>
+    
+    
+</html>
