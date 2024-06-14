@@ -68,6 +68,7 @@ app.post("/weather", async (req, res) => {
     res.status(500).send("An error occured while fetching the data");
   }
 });
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 

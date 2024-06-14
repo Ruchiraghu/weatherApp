@@ -6,7 +6,11 @@
     <title>Weather App 🌥️</title>
 </head>
 <style>
-
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 .box{
   color: white;
   font-weight: bolder;
@@ -14,8 +18,6 @@
 }
 .form-control{
     display: inline-flex;
-    /* text-align: center; */
-    /* justify-content: center; */
     width: 30%;
     height: 40px;
     outline: none;
@@ -23,7 +25,6 @@
     padding-left: 15px;
     border-radius: 20px;
     color: black;
-    /* font-size: clamp(16px, 3vw, 25px); */
     box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px !important;
     padding: 23px;
     margin-left: 33%;
@@ -43,9 +44,8 @@
   body {
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100%;
+    height: 100vh;
     width: 100%;
-    /* font-weight: bolder; */
   }
 
   .day-bg {
@@ -54,31 +54,27 @@
     background-color: rgb(16, 26, 48);
   }
   .night-bg {
-    background-image: url('https://images8.alphacoders.com/134/1346191.png');
-
+   
+    /* background-image: url('https://images8.alphacoders.com/108/1089542.jpg'); */
+    background-image: url('https://images3.alphacoders.com/589/589870.jpg');
+    background-size: cover;
+    background-attachment: fixed;
   }
-  /* body.day{ background-color: #ffffff;
-  color: #000000;}
-  body.night{
-    background-color: #000000;
-  color: #ffffff; 
-  } */
+
+  
 
   .container {
     width: 55%;
   }
   @media screen  and (max-width : 800px ){
         .day-bg{
-        /* background-image: url('https://wallpapers.com/images/hd/anime-park-scenery-1440-x-2960-n38b87g7hnd9vxmm.jpg'); */
         color: black;
-        /* background-color: rgb(46, 77, 55); */
        }
       }
 
 
 </style>
 <body id="body">
-  <!-- <img id="dayNightImage" src="" alt="Day or Night Image"> -->
 
   <div class="box"><nav class="navbar">Weather App  🌥️ 
 
