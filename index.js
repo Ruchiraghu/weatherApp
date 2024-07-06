@@ -14,33 +14,44 @@ app.get('/', (req, res) => {
   res.render("header.ejs");
 })
   ;
-app.post("/weather", async (req, res) => {
-  const city = req.body.city;
-  const submit = 'submit';
-  try {
-    const options = {
-      method: 'GET',
-      url: 'https://weather-by-api-ninjas.p.rapidapi.com/v1/weather',
-      params: { city: city },
-      headers: {
-        'X-RapidAPI-Key': 'eacf70746amsh50b013c2de57e7fp146034jsn95aaf3b23551',
-        'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
-      }
-    };
 
-    const response = await axios.request(options);
-    if (response.status === 200) {
-      const data = {
-        temperature: response.data.temp,
-        wind: response.data.wind_speed,
-        cloud: response.data.cloud_pct,
-        feels_like: response.data.feels_like,
-        humidity: response.data.humidity,
-        sunrise: response.data.sunrise,
-        sunset: response.data.sunset,
-        min_temp: response.data.min_temp,
-        max_temp: response.data.max_temp,
-        wind_degrees: response.data.wind_degrees
+app.post("/weather", async (req, res) => {
+  const { city } = req.body;
+  const apiKey = 'bb4b9d2ed2c1438b917162936231509'; // Replace with your actual WeatherAPI API key
+
+  try {
+    // Fetch current weather
+    const currentWeatherResponse = await axios.get('http://api.weatherapi.com/v1/current.json', {
+      params: { key: apiKey, q: city }
+    });
+    const currentWeatherData = currentWeatherResponse.data;
+
+    // Fetch 7-day forecast
+    const forecastResponse = await axios.get('http://api.weatherapi.com/v1/forecast.json', {
+      params: { key: apiKey, q: city, days: 7 }
+    });
+    const forecastData = forecastResponse.data;
+
+    // Fetch astronomy data for the current date
+    const currentDate = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
+    const astronomyResponse = await axios.get('http://api.weatherapi.com/v1/astronomy.json', {
+      params: { key: apiKey, q: city, dt: currentDate }
+    });
+    const astronomyData = astronomyResponse.data;
+    console.log("Current Weather Data:", currentWeatherData);
+    console.log("Forecast Data:", forecastData);
+    console.log("Astronomy Data:", astronomyData);
+      const weatherData = {
+        temperature: currentWeatherData.current.temp_c,
+        wind: currentWeatherData.current.wind_kph,
+        cloud: currentWeatherData.current.cloud,
+        feels_like: currentWeatherData.current.feelslike_c,
+        humidity: currentWeatherData.current.humidity,
+        sunrise: astronomyData.astronomy.astro.sunrise,
+        sunset: astronomyData.astronomy.astro.sunset,
+        min_temp: forecastData.forecast.forecastday[0].day.mintemp_c,
+        max_temp: forecastData.forecast.forecastday[0].day.maxtemp_c,
+        wind_degree: currentWeatherData.current.wind_degree
       };
       function getCurrentDateTime() {
         const now = new Date();
@@ -49,31 +60,28 @@ app.post("/weather", async (req, res) => {
         return{date,time} ;
 
       }
-      const { date, time } = getCurrentDateTime(); 
-      const sunriseMilliseconds = data.sunrise * 1000;
-      const sunsetMilliseconds = data.sunset * 1000;
-      const sunriseDate = new Date(sunriseMilliseconds);
-      const sunsetDate = new Date(sunsetMilliseconds);
-      const sunriseFormatted = sunriseDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-      const sunsetFormatted = sunsetDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-      res.render("index.ejs", { weatherData: data, city: city, submit: submit, sunsetFormatted: sunsetFormatted, sunriseFormatted: sunriseFormatted,
-      currentDate:date,currentTime:time});
+
+
+      const { date, time } = getCurrentDateTime();
+
+      // console.log("Sunrise Time:", weatherData.sunrise);
+      // console.log("Sunset Time:", weatherData.sunset);
+      // console.log("Wind degree: ",weatherData.wind_degree)
+  
+      res.render("index.ejs", {
+        weatherData: weatherData,
+        city: city,
+        currentDate: date,
+        currentTime: time
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      res.status(500).send("An error occurred while fetching the data");
     }
-    else {
-      console.error("API Error - Status Code:", response.status);
-      res.status(response.status).send("API Error");
-    }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    res.status(500).send("An error occured while fetching the data");
-  }
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-
-});
-
-
+  });
+  
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 
 
